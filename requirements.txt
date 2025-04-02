@@ -1,2 +1,67 @@
-fastapi
-uvicorn
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+
+export default function CalculatorVault() {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+  const [vaultUnlocked, setVaultUnlocked] = useState(false); // Estado para la bóveda oculta
+
+  const calculate = () => {
+    try {
+      setResult(eval(input)); // Calcula la entrada (eval es un riesgo de seguridad, usar alternativas más seguras)
+    } catch (err) {
+      setResult('Error');
+    }
+    if (input === '1234') { // Código secreto para la bóveda
+      setVaultUnlocked(true);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Calculadora con Bóveda</Text>
+      <TextInput
+        style={styles.input}
+        value={input}
+        onChangeText={setInput}
+        keyboardType="numeric"
+        placeholder="Escribe aquí"
+      />
+      <Button title="Calcular" onPress={calculate} />
+      <Text style={styles.result}>Resultado: {result}</Text>
+      {vaultUnlocked && <Text style={styles.vault}>¡Bóveda desbloqueada!</Text>} {/* Mensaje de bóveda */}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  result: {
+    fontSize: 20,
+    marginVertical: 10,
+  },
+  vault: {
+    marginTop: 20,
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+});
